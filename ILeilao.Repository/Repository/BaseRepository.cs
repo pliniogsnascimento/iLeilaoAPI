@@ -37,9 +37,10 @@ namespace ILeilao.Repository
             return model;
         }
 
-        public Task<T> AddAsync(T model)
+        public async Task<T> AddAsync(T model)
         {
-            throw new NotImplementedException();
+            await Collection.InsertOneAsync(model);
+            return model;
         }
 
         public IEnumerable<T> AddMany(IEnumerable<T> modelList)
@@ -61,7 +62,7 @@ namespace ILeilao.Repository
             throw new NotImplementedException();
         }
 
-        public Task<Task<T>> FindAsync(Expression<Func<T, bool>> filter)
+        public Task<T> FindAsync(Expression<Func<T, bool>> filter)
         {
             throw new NotImplementedException();
         }
@@ -73,12 +74,14 @@ namespace ILeilao.Repository
 
         public IEnumerable<T> FindAll(Expression<Func<T, bool>> filter)
         {
+
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<T>> FindAllAsync()
+        public async Task<IEnumerable<T>> FindAllAsync()
         {
-            throw new NotImplementedException();
+            return await Collection.AsQueryable()
+                .ToListAsync();
         }
 
         public Task<IEnumerable<T>> FindAllAsync(Expression<Func<T, bool>> filter)

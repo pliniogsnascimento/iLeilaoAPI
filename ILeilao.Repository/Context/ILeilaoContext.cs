@@ -1,5 +1,8 @@
 ﻿using ILeilao.CrossCutting;
+using ILeilao.Domain;
 using Microsoft.Extensions.Options;
+using MongoDB.Bson.Serialization;
+using MongoDB.Bson.Serialization.IdGenerators;
 using MongoDB.Driver;
 using System;
 
@@ -20,5 +23,6 @@ namespace ILeilao.Repository
         {
             return MongoDatabase.GetCollection<T>(collectionName);
         }
+
     }
 }

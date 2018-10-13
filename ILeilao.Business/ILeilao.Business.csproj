@@ -4,4 +4,9 @@
     <TargetFramework>netcoreapp2.1</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\ILeilao.Domain\ILeilao.Domain.csproj" />
+    <ProjectReference Include="..\ILeilao.Repository\ILeilao.Repository.csproj" />
+  </ItemGroup>
+
 </Project>

@@ -14,7 +14,7 @@ namespace ILeilao.Repository
         Task<IEnumerable<T>> AddManyAsync(IEnumerable<T> modelList);
 
         T Find(Expression<Func<T, bool>> filter);
-        Task<Task<T>> FindAsync(Expression<Func<T, bool>> filter);
+        Task<T> FindAsync(Expression<Func<T, bool>> filter);
 
         IEnumerable<T> FindAll();
         IEnumerable<T> FindAll(Expression<Func<T, bool>> filter);

@@ -6,7 +6,5 @@ namespace ILeilao.Domain
     {
         public decimal Valor { get; set; }
         public Participante Participante { get; set; }
-        public Produto Produto { get; set; }
-        public bool Status { get; set; }
     }
 }

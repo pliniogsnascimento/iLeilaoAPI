@@ -1,11 +1,13 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Text;
 
 namespace ILeilao.Domain
 {
     public class Vendedor
     {
-        public IEnumerable<Produto> ProdutosLeiloados { get; set; }
-        public Conta Conta { get; set; }
+        public string Nome { get; set; }
+        public string Email { get; set; }
+        public string Contato { get; set; }
     }
 }
