@@ -8,7 +8,7 @@ namespace ILeilao.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class LancesController : ControllerBase
+    public class ValuesController : ControllerBase
     {
         // GET api/values
         [HttpGet]
