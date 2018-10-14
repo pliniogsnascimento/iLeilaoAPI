@@ -62,9 +62,21 @@ namespace ILeilao.Repository
             throw new NotImplementedException();
         }
 
-        public Task<T> FindAsync(Expression<Func<T, bool>> filter)
+        public async Task<bool> ExistsAsync(Expression<Func<T, bool>> filter)
         {
-            throw new NotImplementedException();
+            var model = await Collection.FindAsync(filter);
+            return await model.AnyAsync();
+        }
+
+        public async Task<T> FindAsync(Expression<Func<T, bool>> filter)
+        {
+            if(await ExistsAsync(filter))
+            {
+                var model = await Collection.FindAsync(filter);
+                return model.First();
+            }
+
+            return null;
         }
 
         public IEnumerable<T> FindAll()

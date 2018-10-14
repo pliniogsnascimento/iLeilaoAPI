@@ -21,8 +21,19 @@ namespace ILeilao.Business
 
         public async Task RegistrarParticipante(Participante participante)
         {
+            await ChecaContaExistente(participante);
             await _contaRepository.AddAsync(participante.Conta);
             await _participanteRepository.AddAsync(participante);
+        }
+
+        private async Task ChecaContaExistente(Participante participante)
+        {
+            var conta = await _contaRepository.FindAsync(c => c.Email == participante.Conta.Email);
+
+            if(conta != null)
+            {
+                throw new Exception("Conta já cadastrada!");
+            }
         }
     }
 }

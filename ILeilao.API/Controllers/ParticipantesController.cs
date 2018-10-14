@@ -22,8 +22,15 @@ namespace ILeilao.API.Controllers
         [HttpPost]
         public async Task<ActionResult> Post([FromBody] Participante participante)
         {
-            await _service.RegistrarParticipante(participante);
-            return Created("", participante);
+            try
+            {
+                await _service.RegistrarParticipante(participante);
+                return Created("", participante);
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
 }
