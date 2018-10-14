@@ -5,9 +5,10 @@ namespace ILeilao.Domain
 {
     public class Produto
     {
-        public String Id { get; set; }
+        public string Id { get; set; }
         public StatusProduto Status { get; set; }
         public string Descricao { get; set; }
+        public string Imagem { get; set; }
         public decimal LanceMinimo { get; set; }
         public Vendedor Vendedor { get; set; }
         public IEnumerable<Lance> Lances { get; set; }

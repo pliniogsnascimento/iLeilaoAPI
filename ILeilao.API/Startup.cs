@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using FluentValidation.AspNetCore;
 using ILeilao.CrossCutting;
 using ILeilao.Kernel;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Cors.Internal;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -28,6 +30,7 @@ namespace ILeilao.API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc()
+                .AddFluentValidation()
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
                 .AddJsonOptions(options =>
                 {
@@ -35,6 +38,18 @@ namespace ILeilao.API
                 });
 
             services.Configure<DatabaseOptions>(Configuration.GetSection("Database"));
+
+            services.AddCors(o => o.AddPolicy("DefaultPolicy", builder =>
+            {
+                builder.AllowAnyOrigin()
+                       .AllowAnyMethod()
+                       .AllowAnyHeader();
+            }));
+
+            services.Configure<MvcOptions>(options =>
+            {
+                options.Filters.Add(new CorsAuthorizationFilterFactory("DefaultPolicy"));
+            });
 
             Bootstraper.Configure(services);
 
@@ -53,7 +68,7 @@ namespace ILeilao.API
                 app.UseHsts();
             }
 
-            //app.UseHttpsRedirection();
+            app.UseCors("DefaultPolicy");
             app.UseMvc();
         }
     }

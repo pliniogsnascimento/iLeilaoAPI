@@ -1,4 +1,5 @@
 ﻿using ILeilao.Domain;
+using ILeilao.Service;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -11,9 +12,17 @@ namespace ILeilao.API.Controllers
     [Route("api/v1/[controller]")]
     public class ParticipantesController : ControllerBase
     {
-        [HttpPost]
-        public ActionResult<Participante> Post([FromBody] Participante participante)
+        private readonly IParticipanteService _service;
+
+        public ParticipantesController(IParticipanteService service)
         {
+            _service = service;
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> Post([FromBody] Participante participante)
+        {
+            await _service.RegistrarParticipante(participante);
             return Created("", participante);
         }
     }

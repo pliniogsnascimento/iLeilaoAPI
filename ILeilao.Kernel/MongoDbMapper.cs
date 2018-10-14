@@ -16,6 +16,18 @@ namespace ILeilao.Kernel
                 cm.AutoMap();
                 cm.MapIdMember(c => c.Id).SetIdGenerator(StringObjectIdGenerator.Instance);
             });
+
+            BsonClassMap.RegisterClassMap<Conta>(cm =>
+            {
+                cm.AutoMap();
+                cm.MapIdMember(c => c.Id).SetIdGenerator(StringObjectIdGenerator.Instance);
+            });
+
+            BsonClassMap.RegisterClassMap<Participante>(cm =>
+            {
+                cm.AutoMap();
+                cm.MapIdMember(c => c.Id).SetIdGenerator(StringObjectIdGenerator.Instance);
+            });
         }
     }
 }

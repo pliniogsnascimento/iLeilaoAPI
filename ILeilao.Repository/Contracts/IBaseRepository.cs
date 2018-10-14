@@ -8,6 +8,8 @@ namespace ILeilao.Repository
 {
     public interface IBaseRepository<T> where T : class, new()
     {
+        // TODO: Remover retorno das inserções
+
         T Add(T model);
         Task<T> AddAsync(T model);
         IEnumerable<T> AddMany(IEnumerable<T> modelList);
