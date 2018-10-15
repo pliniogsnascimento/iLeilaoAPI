@@ -28,6 +28,12 @@ namespace ILeilao.Kernel
                 cm.AutoMap();
                 cm.MapIdMember(c => c.Id).SetIdGenerator(StringObjectIdGenerator.Instance);
             });
+
+            BsonClassMap.RegisterClassMap<Leiloeiro>(cm =>
+            {
+                cm.AutoMap();
+                cm.MapIdMember(c => c.Id).SetIdGenerator(StringObjectIdGenerator.Instance);
+            });
         }
     }
 }

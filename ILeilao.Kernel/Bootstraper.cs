@@ -16,11 +16,13 @@ namespace ILeilao.Kernel
             services.AddTransient<IProdutoBusiness, ProdutoBusiness>();
             services.AddTransient<IParticipanteBusiness, ParticipanteBusiness>();
             services.AddTransient<ILoginBusiness, LoginBusiness>();
+            services.AddTransient<ILeiloeiroBusiness, LeiloeiroBusiness>();
 
             // Services
             services.AddTransient<IProdutoService, ProdutoService>();
             services.AddTransient<IParticipanteService, ParticipanteService>();
             services.AddTransient<ILoginService, LoginService>();
+            services.AddTransient<ILeiloeiroService, LeiloeiroService>();
 
             // Repository
             services.AddTransient<ILeilaoContext, ILeilaoContext>();
@@ -33,6 +35,7 @@ namespace ILeilao.Kernel
             services.AddTransient<IValidator<Conta>, ContaValidator>();
             services.AddTransient<IValidator<Participante>, ParticipanteValidator>();
             services.AddTransient<IValidator<Produto>, ProdutoValidator>();
+            services.AddTransient<IValidator<Leiloeiro>, LeiloeiroValidator>();
         }
     }
 }
