@@ -110,9 +110,13 @@ namespace ILeilao.Repository
             throw new NotImplementedException();
         }
 
-        public Task<bool> EditAsync(Expression<Func<T, bool>> filter, T model)
+        public async Task<bool> EditAsync(Expression<Func<T, bool>> filter, T model)
         {
-            throw new NotImplementedException();
+            ReplaceOneResult result =
+                await Collection
+                .ReplaceOneAsync(filter, model);
+            return result
+                .ModifiedCount > 0;
         }
 
         #endregion

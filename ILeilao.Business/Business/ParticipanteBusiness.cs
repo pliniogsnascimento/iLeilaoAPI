@@ -21,6 +21,8 @@ namespace ILeilao.Business
 
         public async Task RegistrarParticipante(Participante participante)
         {
+            participante.Conta.AcessoConta = AcessoConta.Usuario;
+
             await ChecaContaExistente(participante);
             await _contaRepository.AddAsync(participante.Conta);
             await _participanteRepository.AddAsync(participante);

@@ -8,5 +8,8 @@ namespace ILeilao.Business
     {
         Task<Produto> IniciarLeilaoProduto(Produto produto);
         Task<IEnumerable<Produto>> ListarProdutos();
+        Task InserirLanceEmProduto(string id, Lance lance);
+        Task<Produto> BuscarProdutoPorId(string id);
+        Task<Participante> EncerrarLeilao(string id, Produto produto);
     }
 }

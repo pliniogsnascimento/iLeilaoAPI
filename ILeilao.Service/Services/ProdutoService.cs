@@ -17,14 +17,14 @@ namespace ILeilao.Service
             _business = business;
         }
 
-        public async Task<Produto> IniciarLeilaoProduto(Produto produto)
-        {
-            return await _business.IniciarLeilaoProduto(produto);
-        }
+        public async Task AdicionarLance(string id, Lance lance) => await _business.InserirLanceEmProduto(id, lance);
+        
+        public async Task<Produto> BuscarProdutoPorId(string id) => await _business.BuscarProdutoPorId(id);
+        
+        public async Task<Produto> IniciarLeilaoProduto(Produto produto) => await _business.IniciarLeilaoProduto(produto);
+        
+        public async Task<IEnumerable<Produto>> ListarProdutos() => await _business.ListarProdutos();
 
-        public async Task<IEnumerable<Produto>> ListarProdutos()
-        {
-            return await _business.ListarProdutos();
-        }
+        public async Task<Participante> EncerrarLeilao(string id, Produto produto) => await _business.EncerrarLeilao(id, produto);
     }
 }

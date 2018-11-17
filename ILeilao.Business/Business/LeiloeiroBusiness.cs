@@ -21,6 +21,8 @@ namespace ILeilao.Business
 
         public async Task RegistrarLeiloeiro(Leiloeiro leiloeiro)
         {
+            leiloeiro.Conta.AcessoConta = AcessoConta.Administrador;
+
             await ChecaContaExistente(leiloeiro);
             await _contaRepository.AddAsync(leiloeiro.Conta);
             await _leiloeiroRepository.AddAsync(leiloeiro);
@@ -31,9 +33,7 @@ namespace ILeilao.Business
             var conta = await _contaRepository.FindAsync(c => c.Email == leiloeiro.Conta.Email);
 
             if (conta != null)
-            {
                 throw new Exception("Conta já cadastrada!");
-            }
         }
     }
 }
