@@ -21,6 +21,7 @@ FROM build AS publish
 RUN dotnet publish "ILeilao.API.csproj" -c Release -o /app
 
 FROM base AS final
+ENV ASPNETCORE_ENVIRONMENT=Docker
 WORKDIR /app
 COPY --from=publish /app .
 ENTRYPOINT ["dotnet", "ILeilao.API.dll"]
