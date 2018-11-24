@@ -54,7 +54,7 @@ namespace ILeilao.API.Controllers
             try
             {
                 var participante = await _service.EncerrarLeilao(id, produto);
-                return Ok();
+                return Ok(participante);
             }
             catch (Exception ex)
             {

@@ -14,6 +14,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Swashbuckle.AspNetCore.Swagger;
 
 namespace ILeilao.API
 {
@@ -36,6 +37,8 @@ namespace ILeilao.API
                 {
                     options.SerializerSettings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
                 });
+
+            ConfigureSwagger(services);
 
             services.Configure<DatabaseOptions>(Configuration.GetSection("Database"));
 
@@ -68,8 +71,43 @@ namespace ILeilao.API
                 app.UseHsts();
             }
 
+            ConfigureSwagger(app);
+
             app.UseCors("DefaultPolicy");
             app.UseMvc();
+        }
+
+        private void ConfigureSwagger(IServiceCollection services)
+        {
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new Info
+                {
+                    Version = "v1",
+                    Title = "ILeilao API",
+                    Description = "Serviço do ILeilao para criação e gerenciamento de leilões",
+                    TermsOfService = "ILeilao Ltda.",
+                    Contact = new Contact
+                    {
+                        Name = "Plinio Nascimento",
+                        Email = "plinio.gsnascimento@gmail.com",
+                        Url = "https://github.com/pliniogsnascimento"
+                    }
+                });
+            });
+        }
+
+        private void ConfigureSwagger(IApplicationBuilder app)
+        {
+            app.UseStaticFiles();
+
+            app.UseSwagger();
+
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "ILeilao API");
+                c.RoutePrefix = "swagger";
+            });
         }
     }
 }
