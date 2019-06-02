@@ -2,9 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using FluentValidation;
 using FluentValidation.AspNetCore;
+using ILeilao.Business;
 using ILeilao.CrossCutting;
+using ILeilao.Domain;
 using ILeilao.Kernel;
+using ILeilao.Repository;
+using ILeilao.Service;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -31,6 +36,8 @@ namespace ILeilao.API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc()
+                //.AddCustomSwagger()
+                //.AddApplicationDI()
                 .AddFluentValidation()
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
                 .AddJsonOptions(options =>
@@ -52,6 +59,12 @@ namespace ILeilao.API
             services.Configure<MvcOptions>(options =>
             {
                 options.Filters.Add(new CorsAuthorizationFilterFactory("DefaultPolicy"));
+            });
+
+            services.AddLogging((logging) =>
+            {
+                logging.AddConsole();
+                logging.AddEventSourceLogger();
             });
 
             Bootstraper.Configure(services);
@@ -77,7 +90,22 @@ namespace ILeilao.API
             app.UseMvc();
         }
 
-        private void ConfigureSwagger(IServiceCollection services)
+        
+
+        private void ConfigureSwagger(IApplicationBuilder app)
+        {
+            app.UseStaticFiles();
+
+            app.UseSwagger();
+
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "ILeilao API");
+                c.RoutePrefix = "swagger";
+            });
+        }
+
+        public void ConfigureSwagger(this IServiceCollection services)
         {
             services.AddSwaggerGen(c =>
             {
@@ -95,19 +123,63 @@ namespace ILeilao.API
                     }
                 });
             });
+
         }
 
-        private void ConfigureSwagger(IApplicationBuilder app)
-        {
-            app.UseStaticFiles();
-
-            app.UseSwagger();
-
-            app.UseSwaggerUI(c =>
-            {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "ILeilao API");
-                c.RoutePrefix = "swagger";
-            });
-        }
     }
+
+    //static class CustomExtensions
+    //{
+    //    public static IServiceCollection AddApplicationDI(this IServiceCollection services)
+    //    {
+    //        // Business
+    //        services.AddTransient<IProdutoBusiness, ProdutoBusiness>();
+    //        services.AddTransient<IParticipanteBusiness, ParticipanteBusiness>();
+    //        services.AddTransient<ILoginBusiness, LoginBusiness>();
+    //        services.AddTransient<ILeiloeiroBusiness, LeiloeiroBusiness>();
+
+    //        // Services
+    //        services.AddTransient<IProdutoService, ProdutoService>();
+    //        services.AddTransient<IParticipanteService, ParticipanteService>();
+    //        services.AddTransient<ILoginService, LoginService>();
+    //        services.AddTransient<ILeiloeiroService, LeiloeiroService>();
+
+    //        // Repository
+    //        services.AddTransient<ILeilaoContext, ILeilaoContext>();
+    //        services.AddTransient<IProdutoRepository, ProdutoRepository>();
+    //        services.AddTransient<IParticipanteRepository, ParticipanteRepository>();
+    //        services.AddTransient<IContaRepository, ContaRepository>();
+    //        services.AddTransient<ILeiloeiroRepository, LeiloeiroRepository>();
+
+    //        // Validations
+    //        services.AddTransient<IValidator<Conta>, ContaValidator>();
+    //        services.AddTransient<IValidator<Participante>, ParticipanteValidator>();
+    //        services.AddTransient<IValidator<Produto>, ProdutoValidator>();
+    //        services.AddTransient<IValidator<Leiloeiro>, LeiloeiroValidator>();
+
+    //        return services;
+    //    }
+
+    //    public static IServiceCollection AddCustomSwagger(this IServiceCollection services)
+    //    {
+    //        services.AddSwaggerGen(c =>
+    //        {
+    //            c.SwaggerDoc("v1", new Info
+    //            {
+    //                Version = "v1",
+    //                Title = "ILeilao API",
+    //                Description = "Serviço do ILeilao para criação e gerenciamento de leilões",
+    //                TermsOfService = "ILeilao Ltda.",
+    //                Contact = new Contact
+    //                {
+    //                    Name = "Plinio Nascimento",
+    //                    Email = "plinio.gsnascimento@gmail.com",
+    //                    Url = "https://github.com/pliniogsnascimento"
+    //                }
+    //            });
+    //        });
+
+    //        return services;
+    //    }
+    //}
 }

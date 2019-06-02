@@ -8,7 +8,7 @@ using System;
 
 namespace ILeilao.Kernel
 {
-    public class Bootstraper
+    public static class Bootstraper
     {
         public static void Configure(IServiceCollection services)
         {
